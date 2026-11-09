@@ -15,7 +15,7 @@ public final class ScreenIntegration {
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (!(screen instanceof TitleScreen) && !(screen instanceof PauseScreen)) return;
             int x = Math.max(4, screen.width - 104);
-            Screens.getWidgets(screen).add(Button.builder(Component.literal("COSMETICA"), button ->
+            Screens.getButtons(screen).add(Button.builder(Component.literal("COSMETICA"), button ->
                     client.setScreen(new WardrobeScreen(screen)))
                     .bounds(x, 8, 96, 20).build());
         });
