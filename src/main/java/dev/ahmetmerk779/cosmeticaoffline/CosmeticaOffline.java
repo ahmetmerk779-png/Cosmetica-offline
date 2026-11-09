@@ -11,6 +11,7 @@ public final class CosmeticaOffline implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         LocalCosmetics.initialize();
+        ScreenIntegration.register();
         LOGGER.info("Cosmetica Offline initialized. Local profile: {}", LocalCosmetics.getProfileId());
     }
 }
