@@ -1,8 +1,8 @@
 package dev.ahmetmerk779.cosmeticaoffline;
 
 import net.fabricmc.loader.api.FabricLoader;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import com.mojang.blaze3d.platform.NativeImage;
+import java.io.InputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -104,10 +104,13 @@ public final class LocalCosmetics {
         if (source == null || !Files.isRegularFile(source)) throw new IOException("Selected file does not exist");
         String original = source.getFileName().toString();
         if (!original.toLowerCase(Locale.ROOT).endsWith(".png")) throw new IOException("Only PNG cape files are supported");
-        BufferedImage image = ImageIO.read(source.toFile());
-        if (image == null) throw new IOException("File is not a valid PNG image");
-        int width = image.getWidth();
-        int height = image.getHeight();
+        int width;
+        int height;
+        try (InputStream input = Files.newInputStream(source);
+             NativeImage image = NativeImage.read(input)) {
+            width = image.getWidth();
+            height = image.getHeight();
+        }
         if (width != 64 || (height != 32 && height != 64)) {
             throw new IOException("Cape size must be 64x32 or 64x64 pixels (got " + width + "x" + height + ")");
         }
