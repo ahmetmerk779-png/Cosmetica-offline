@@ -73,7 +73,7 @@ public final class WardrobeScreen extends Screen {
             graphics.fill(center - 162, y - 4, center + 162, y + 21, selected ? 0xFF244C54 : 0xFF292F3D);
             graphics.drawString(this.font, selected ? "✓ " + cape : cape, center - 151, y + 4,
                     selected ? 0xFF8DF0D0 : 0xFFE2E7F0, false);
-            graphics.drawString(this.font, "SEC", center + 130, y + 4, 0xFF70C7FF, false);
+            graphics.drawString(this.font, "SIL", center + 130, y + 4, 0xFFFF8A8A, false);
         }
         if (capes.isEmpty()) {
             graphics.drawCenteredString(this.font, "Henuz cape yok. PNG dosyani asagidan aktar.", center, 119, 0xFFB4BDCC);
@@ -97,6 +97,11 @@ public final class WardrobeScreen extends Screen {
             List<String> capes = LocalCosmetics.getCapeFiles();
             if (index >= 0 && index < capes.size()) {
                 String filename = capes.get(index);
+                if (mouseX > center + 95) {
+                    LocalCosmetics.deleteCape(filename);
+                    status = filename + " silindi.";
+                    return true;
+                }
                 if (filename.equals(LocalCosmetics.getActiveCape())) {
                     LocalCosmetics.setActiveCape("");
                     status = filename + " devre disi birakildi.";
