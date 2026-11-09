@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import java.nio.file.Path;
 import java.util.List;
@@ -87,9 +88,11 @@ public final class WardrobeScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (super.mouseClicked(mouseX, mouseY, button)) return true;
-        if (button != 0) return false;
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (super.mouseClicked(event, doubleClick)) return true;
+        if (event.button() != 0) return false;
+        double mouseX = event.x();
+        double mouseY = event.y();
         int center = this.width / 2;
         if (mouseX >= center - 162 && mouseX <= center + 162 && mouseY >= 97 && mouseY < 242) {
             int row = (int) ((mouseY - 97) / 29);
