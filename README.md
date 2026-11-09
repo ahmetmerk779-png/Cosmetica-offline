@@ -1,39 +1,48 @@
 # Cosmetica Offline
 
-A client-side Fabric cosmetics project for Minecraft **1.21.11**.
+Minecraft **1.21.11 / Fabric** için istemci taraflı, çevrimdışı kozmetik projesi.
 
-## Goals
+## Şu anki özellikler
 
-- Works with offline/cracked launcher profiles; no Microsoft/Mojang login check.
-- Cosmetics are intended to render locally for the user only.
-- No cosmetics backend, account linking, telemetry, or server modification.
-- Android ARM64 / PojavLauncher-friendly design: avoid native libraries and heavyweight dependencies.
-- Local cape files and settings live in `config/cosmetica-offline/`.
+- Microsoft/Mojang hesabı veya Cosmetica sunucusu gerektirmez.
+- Yerel profil kimliği ve kozmetik ayarlarını `config/cosmetica-offline/` altında saklar.
+- Ana menü ve oyun duraklatma ekranına **COSMETICA** düğmesi ekler.
+- Modern koyu temalı, dokunmatik ekrana uygun yerel cape dolabı.
+- PNG cape dosyalarını tam dosya yolundan içe aktarır.
+- 64x32 ve 64x64 PNG boyutlarını doğrular.
+- Cape listesini gösterir ve aktif cape seçimini diske kaydeder.
+- Ağ isteği yapmaz; dosyaları hiçbir sunucuya göndermez.
 
-## Build
+## Cape ekleme
 
-Requirements: JDK 21 and internet access for Gradle dependency resolution.
+1. PNG cape dosyanı telefonunun dosya yöneticisinde bul.
+2. Oyunda ana menüdeki veya ESC menüsündeki **COSMETICA** düğmesine dokun.
+3. Dosyanın tam yolunu kutuya yaz. Örnek: `/storage/emulated/0/Download/cape.png`
+4. **İÇE AKTAR** düğmesine bas ve listeden cape'ini seç.
+
+Alternatif: PNG dosyasını doğrudan `config/cosmetica-offline/capes/` klasörüne kopyala. Dolap ekranını yeniden aç.
+
+## Önemli durum
+
+Dolap, PNG içe aktarma, yerel listeleme ve seçim kaydı kaynak koda eklendi. **Aktif cape'in oyuncu modelinde 3D olarak çizilmesi henüz tamamlanmadı.** Bu nedenle şu an cape seçimi kaydedilir ama karakterinin sırtında görünmesi beklenmemelidir. Derleme ve PojavLauncher üzerinde çalışma testi de henüz doğrulanmadı.
+
+## Derleme
+
+JDK 21 ve internet bağlantısı gerekir:
 
 ```bash
-./gradlew build
+gradle build
 ```
 
-The mod JAR will be in `build/libs/`.
+GitHub Actions her push'ta derleme işini otomatik çalıştırır ve başarılı derlemede JAR dosyasını artifact olarak yükler.
 
-## Local data
+## Uyumluluk hedefi
 
-On first launch the mod creates:
+- Minecraft 1.21.11
+- Fabric Loader 0.20.x
+- Java 21
+- PojavLauncher / Android ARM64 hedeflenir; gerçek cihaz testi henüz yapılmadı.
 
-- `config/cosmetica-offline/profile-id.txt`
-- `config/cosmetica-offline/capes/`
-- `config/cosmetica-offline/HOW_TO_ADD_CAPE.txt`
+## Gizlilik
 
-The initial commit establishes the Fabric client project and persistent offline profile storage. Cape rendering and the in-game wardrobe are the next implementation stage; this initial commit is not yet a finished playable cosmetics release.
-
-## Privacy / multiplayer behavior
-
-This project is designed to affect only the local client's rendering. It does not send cosmetic data to servers or other players. Other players will not see these cosmetics.
-
-## Compatibility
-
-Target: Minecraft 1.21.11, Fabric Loader 0.20.x, Java 21.
+Mod kozmetik verilerini sunucuya göndermez. Seçilen cape yalnızca bu istemcideki yerel ayar olarak saklanır. Diğer oyuncular cape'i göremez.
