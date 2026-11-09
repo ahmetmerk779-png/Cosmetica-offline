@@ -120,6 +120,7 @@ public final class LocalCosmetics {
         Path destination = CAPES_DIR.resolve(base).normalize();
         if (!destination.getParent().equals(CAPES_DIR.normalize())) throw new IOException("Invalid cape filename");
         Files.copy(source, destination, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        LocalCapeTextures.reload();
         return base;
     }
 
@@ -130,6 +131,7 @@ public final class LocalCosmetics {
             if (!target.getParent().equals(CAPES_DIR.normalize())) return false;
             boolean deleted = Files.deleteIfExists(target);
             if (safeName.equals(getActiveCape())) setActiveCape("");
+            if (deleted) LocalCapeTextures.reload();
             return deleted;
         } catch (IOException | RuntimeException exception) {
             CosmeticaOffline.LOGGER.error("Could not delete cape", exception);
