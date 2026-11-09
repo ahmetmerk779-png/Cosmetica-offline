@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "cosmetica_offline",
+  "version": "${version}",
+  "name": "Cosmetica Offline",
+  "description": "Local-only cosmetics for Fabric. No Mojang authentication or remote cosmetics service is required.",
+  "authors": ["ahmetmerk779-png"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["dev.ahmetmerk779.cosmeticaoffline.CosmeticaOffline"]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.0",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
