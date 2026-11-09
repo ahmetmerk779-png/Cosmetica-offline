@@ -1,6 +1,7 @@
 package dev.ahmetmerk779.cosmeticaoffline;
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -14,7 +15,7 @@ public final class ScreenIntegration {
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (!(screen instanceof TitleScreen) && !(screen instanceof PauseScreen)) return;
             int x = Math.max(4, screen.width - 104);
-            screen.addRenderableWidget(Button.builder(Component.literal("COSMETICA"), button ->
+            Screens.getWidgets(screen).add(Button.builder(Component.literal("COSMETICA"), button ->
                     client.setScreen(new WardrobeScreen(screen)))
                     .bounds(x, 8, 96, 20).build());
         });
