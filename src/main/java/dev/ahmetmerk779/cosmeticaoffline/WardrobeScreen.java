@@ -78,8 +78,9 @@ public final class WardrobeScreen extends Screen {
         if (capes.isEmpty()) {
             graphics.drawCenteredString(this.font, "Henuz cape yok. PNG dosyani asagidan aktar.", center, 119, 0xFFB4BDCC);
         }
-        graphics.drawString(this.font, "Sayfa " + (page + 1) + " / " + pages + "  -  Bir cape satirina dokunarak sec.",
-                center - 160, 253, 0xFF9BA8BD, false);
+        graphics.drawString(this.font, "‹", center - 160, 253, 0xFF70C7FF, false);
+        graphics.drawCenteredString(this.font, "Sayfa " + (page + 1) + " / " + pages, center, 253, 0xFF9BA8BD);
+        graphics.drawString(this.font, "›", center + 150, 253, 0xFF70C7FF, false);
         graphics.drawString(this.font, "Durum: " + status, center - 160, this.height - 87, 0xFFFFD27A, false);
         graphics.drawString(this.font, "Klasor: config/cosmetica-offline/capes/", center - 160, this.height - 75, 0xFF7F8CA3, false);
         super.render(graphics, mouseX, mouseY, delta);
@@ -96,8 +97,13 @@ public final class WardrobeScreen extends Screen {
             List<String> capes = LocalCosmetics.getCapeFiles();
             if (index >= 0 && index < capes.size()) {
                 String filename = capes.get(index);
-                LocalCosmetics.setActiveCape(filename);
-                status = filename + " secildi.";
+                if (filename.equals(LocalCosmetics.getActiveCape())) {
+                    LocalCosmetics.setActiveCape("");
+                    status = filename + " devre disi birakildi.";
+                } else {
+                    LocalCosmetics.setActiveCape(filename);
+                    status = filename + " secildi.";
+                }
                 return true;
             }
         }
@@ -107,6 +113,19 @@ public final class WardrobeScreen extends Screen {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onFilesDrop(List<Path> paths) {
+        if (paths == null || paths.isEmpty()) return;
+        try {
+            String imported = LocalCosmetics.importCape(paths.get(0));
+            LocalCosmetics.setActiveCape(imported);
+            status = imported + " surukle-birak ile eklendi ve secildi.";
+            page = 0;
+        } catch (Exception exception) {
+            status = "Aktarma hatasi: " + exception.getMessage();
+        }
     }
 
     @Override
