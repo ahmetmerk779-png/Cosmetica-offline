@@ -2,47 +2,41 @@
 
 Minecraft **1.21.11 / Fabric** için istemci taraflı, çevrimdışı kozmetik projesi.
 
-## Şu anki özellikler
+## Özellikler
 
 - Microsoft/Mojang hesabı veya Cosmetica sunucusu gerektirmez.
-- Yerel profil kimliği ve kozmetik ayarlarını `config/cosmetica-offline/` altında saklar.
-- Ana menü ve oyun duraklatma ekranına **COSMETICA** düğmesi ekler.
-- Modern koyu temalı, dokunmatik ekrana uygun yerel cape dolabı.
-- PNG cape dosyalarını tam dosya yolundan içe aktarır.
-- 64x32 ve 64x64 PNG boyutlarını doğrular.
-- Cape listesini gösterir ve aktif cape seçimini diske kaydeder.
-- Ağ isteği yapmaz; dosyaları hiçbir sunucuya göndermez.
+- Yerel profil ve cape ayarlarını `config/cosmetica-offline/` altında saklar.
+- Ana menü ve duraklatma ekranında **COSMETICA** düğmesi.
+- Mobil kullanıma uygun koyu temalı cape dolabı.
+- PNG cape dosyalarını dosya yolundan içe aktarma.
+- 64x32 ve 64x64 PNG boyut kontrolü.
+- Cape seçme ve silme.
+- **3D cape render entegrasyonu:** seçili yerel cape, yalnızca yerel oyuncunun render state'ine eklenir; Minecraft'ın vanilla CapeLayer sistemi kumaş hareketini ve animasyonları çizer.
+- Dosyalar sunucuya gönderilmez; diğer oyuncuların istemcilerine aktarılmaz.
 
 ## Cape ekleme
 
 1. PNG cape dosyanı telefonunun dosya yöneticisinde bul.
 2. Oyunda ana menüdeki veya ESC menüsündeki **COSMETICA** düğmesine dokun.
-3. Dosyanın tam yolunu kutuya yaz. Örnek: `/storage/emulated/0/Download/cape.png`
-4. **İÇE AKTAR** düğmesine bas ve listeden cape'ini seç.
+3. Dosyanın tam yolunu yaz (ör. `/storage/emulated/0/Download/cape.png`).
+4. **İÇE AKTAR** düğmesine bas; listeye eklenip seçilir.
 
-Alternatif: PNG dosyasını doğrudan `config/cosmetica-offline/capes/` klasörüne kopyala. Dolap ekranını yeniden aç.
+Alternatif olarak PNG'yi `config/cosmetica-offline/capes/` klasörüne kopyala.
 
-## Önemli durum
+## Önemli
 
-Dolap, PNG içe aktarma, yerel listeleme ve seçim kaydı kaynak koda eklendi. **Aktif cape'in oyuncu modelinde 3D olarak çizilmesi henüz tamamlanmadı.** Bu nedenle şu an cape seçimi kaydedilir ama karakterinin sırtında görünmesi beklenmemelidir. Derleme ve PojavLauncher üzerinde çalışma testi de henüz doğrulanmadı.
+Render entegrasyonu Minecraft 1.21.11'in `AvatarRenderer` render-state aşamasına mixin uygular ve PlayerSkin cape alanını yerel dinamik doku ile değiştirir. Böylece ayrı, düz bir 2D overlay çizmek yerine vanilla'nın 3D cape modeli, hareketi ve animasyonu kullanılır.
 
-## Derleme
+Proje GitHub Actions ile derlenir. **Son commit'in CI derlemesi ve PojavLauncher/Android ARM64 cihaz testi tamamlanmadan çalışan JAR garantisi verilmez.** Build sonucu Actions sekmesinde görünür.
 
-JDK 21 ve internet bağlantısı gerekir:
-
-```bash
-gradle build
-```
-
-GitHub Actions her push'ta derleme işini otomatik çalıştırır ve başarılı derlemede JAR dosyasını artifact olarak yükler.
-
-## Uyumluluk hedefi
+## Hedef
 
 - Minecraft 1.21.11
 - Fabric Loader 0.20.x
+- Fabric API 0.141.x
 - Java 21
-- PojavLauncher / Android ARM64 hedeflenir; gerçek cihaz testi henüz yapılmadı.
+- PojavLauncher / Android ARM64 (cihaz testi bekliyor)
 
 ## Gizlilik
 
-Mod kozmetik verilerini sunucuya göndermez. Seçilen cape yalnızca bu istemcideki yerel ayar olarak saklanır. Diğer oyuncular cape'i göremez.
+Cape sadece yerel istemcide görüntülenir. Bu mod diğer oyunculara cape göndermeye veya sunucuya müdahale etmeye çalışmaz.
